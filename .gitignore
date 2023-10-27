@@ -1,0 +1,8 @@
+*.bak
+.vscode
+build*
+*.cache
+.$*
+*a.out
+*vgcore.*
+CMakeUserPresets.json
