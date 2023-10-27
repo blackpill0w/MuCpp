@@ -97,7 +97,7 @@ int FlowLayout::doLayout(const QRect &rect, bool testOnly) const {
       lineHeight = 0;
     }
 
-    if (! testOnly)
+    if (!testOnly)
       item->setGeometry(QRect(QPoint(x, y), item->sizeHint()));
 
     x          = nextX;
@@ -108,7 +108,7 @@ int FlowLayout::doLayout(const QRect &rect, bool testOnly) const {
 
 int FlowLayout::smartSpacing(QStyle::PixelMetric pm) const {
   QObject *parent = this->parent();
-  if (! parent) {
+  if (!parent) {
     return -1;
   }
   else if (parent->isWidgetType()) {

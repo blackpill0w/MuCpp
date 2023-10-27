@@ -85,7 +85,7 @@ void MainWindow::show_frame(QFrame *f) {
 }
 
 void MainWindow::update_albums() {
-  auto* layout = m_albums_frame->layout();
+  auto *layout = m_albums_frame->layout();
   while (!m_albums_frame->layout()->isEmpty()) {
     layout->removeItem(layout->itemAt(0));
   }
@@ -93,7 +93,7 @@ void MainWindow::update_albums() {
 
   for (const auto &a : albums) {
     std::string album_art{std::format("{}/{}", MusicIndexer::data_dir, a.id)};
-    if (! fs::exists(album_art)) {
+    if (!fs::exists(album_art)) {
       // TODO: Change this bug bunny picture as a default album art
       // (or maybe keep it)
       album_art = "../ui/bugs_bunny.jpg";
