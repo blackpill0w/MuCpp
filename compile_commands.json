@@ -1,0 +1,44 @@
+[
+{
+  "directory": "/home/blackpill0w/Code/c_c++/MuCpp/build_debug",
+  "command": "/usr/bin/c++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_MULTIMEDIA_LIB -DQT_NETWORK_LIB -DQT_OPENGLWIDGETS_LIB -DQT_OPENGL_LIB -DQT_UITOOLS_LIB -DQT_WIDGETS_LIB -I/home/blackpill0w/Code/c_c++/MuCpp/build_debug/mucpp_autogen/include -isystem /home/blackpill0w/.conan2/p/b/sqlitbdadc39945860/p/include -isystem /usr/include/qt6/QtWidgets -isystem /usr/include/qt6 -isystem /usr/include/qt6/QtCore -isystem /usr/lib/qt6/mkspecs/linux-g++ -isystem /usr/include/qt6/QtGui -isystem /usr/include/qt6/QtMultimedia -isystem /usr/include/qt6/QtNetwork -isystem /usr/include/qt6/QtUiTools -isystem /usr/include/qt6/QtOpenGLWidgets -isystem /usr/include/qt6/QtOpenGL -m64 -Wall -Wextra -Wfloat-conversion -Wsign-conversion -Wshadow -Wduplicated-cond -Wduplicated-branches -Wlogical-op -Wnull-dereference -Wuseless-cast -Wformat=2 -g -std=c++20  -o CMakeFiles/mucpp.dir/mucpp_autogen/mocs_compilation.cpp.o -c /home/blackpill0w/Code/c_c++/MuCpp/build_debug/mucpp_autogen/mocs_compilation.cpp",
+  "file": "/home/blackpill0w/Code/c_c++/MuCpp/build_debug/mucpp_autogen/mocs_compilation.cpp",
+  "output": "CMakeFiles/mucpp.dir/mucpp_autogen/mocs_compilation.cpp.o"
+},
+{
+  "directory": "/home/blackpill0w/Code/c_c++/MuCpp/build_debug",
+  "command": "/usr/bin/c++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_MULTIMEDIA_LIB -DQT_NETWORK_LIB -DQT_OPENGLWIDGETS_LIB -DQT_OPENGL_LIB -DQT_UITOOLS_LIB -DQT_WIDGETS_LIB -I/home/blackpill0w/Code/c_c++/MuCpp/build_debug/mucpp_autogen/include -isystem /home/blackpill0w/.conan2/p/b/sqlitbdadc39945860/p/include -isystem /usr/include/qt6/QtWidgets -isystem /usr/include/qt6 -isystem /usr/include/qt6/QtCore -isystem /usr/lib/qt6/mkspecs/linux-g++ -isystem /usr/include/qt6/QtGui -isystem /usr/include/qt6/QtMultimedia -isystem /usr/include/qt6/QtNetwork -isystem /usr/include/qt6/QtUiTools -isystem /usr/include/qt6/QtOpenGLWidgets -isystem /usr/include/qt6/QtOpenGL -m64 -Wall -Wextra -Wfloat-conversion -Wsign-conversion -Wshadow -Wduplicated-cond -Wduplicated-branches -Wlogical-op -Wnull-dereference -Wuseless-cast -Wformat=2 -g -std=c++20  -o CMakeFiles/mucpp.dir/src/clickable_label.cpp.o -c /home/blackpill0w/Code/c_c++/MuCpp/src/clickable_label.cpp",
+  "file": "/home/blackpill0w/Code/c_c++/MuCpp/src/clickable_label.cpp",
+  "output": "CMakeFiles/mucpp.dir/src/clickable_label.cpp.o"
+},
+{
+  "directory": "/home/blackpill0w/Code/c_c++/MuCpp/build_debug",
+  "command": "/usr/bin/c++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_MULTIMEDIA_LIB -DQT_NETWORK_LIB -DQT_OPENGLWIDGETS_LIB -DQT_OPENGL_LIB -DQT_UITOOLS_LIB -DQT_WIDGETS_LIB -I/home/blackpill0w/Code/c_c++/MuCpp/build_debug/mucpp_autogen/include -isystem /home/blackpill0w/.conan2/p/b/sqlitbdadc39945860/p/include -isystem /usr/include/qt6/QtWidgets -isystem /usr/include/qt6 -isystem /usr/include/qt6/QtCore -isystem /usr/lib/qt6/mkspecs/linux-g++ -isystem /usr/include/qt6/QtGui -isystem /usr/include/qt6/QtMultimedia -isystem /usr/include/qt6/QtNetwork -isystem /usr/include/qt6/QtUiTools -isystem /usr/include/qt6/QtOpenGLWidgets -isystem /usr/include/qt6/QtOpenGL -m64 -Wall -Wextra -Wfloat-conversion -Wsign-conversion -Wshadow -Wduplicated-cond -Wduplicated-branches -Wlogical-op -Wnull-dereference -Wuseless-cast -Wformat=2 -g -std=c++20  -o CMakeFiles/mucpp.dir/src/flow_layout.cpp.o -c /home/blackpill0w/Code/c_c++/MuCpp/src/flow_layout.cpp",
+  "file": "/home/blackpill0w/Code/c_c++/MuCpp/src/flow_layout.cpp",
+  "output": "CMakeFiles/mucpp.dir/src/flow_layout.cpp.o"
+},
+{
+  "directory": "/home/blackpill0w/Code/c_c++/MuCpp/build_debug",
+  "command": "/usr/bin/c++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_MULTIMEDIA_LIB -DQT_NETWORK_LIB -DQT_OPENGLWIDGETS_LIB -DQT_OPENGL_LIB -DQT_UITOOLS_LIB -DQT_WIDGETS_LIB -I/home/blackpill0w/Code/c_c++/MuCpp/build_debug/mucpp_autogen/include -isystem /home/blackpill0w/.conan2/p/b/sqlitbdadc39945860/p/include -isystem /usr/include/qt6/QtWidgets -isystem /usr/include/qt6 -isystem /usr/include/qt6/QtCore -isystem /usr/lib/qt6/mkspecs/linux-g++ -isystem /usr/include/qt6/QtGui -isystem /usr/include/qt6/QtMultimedia -isystem /usr/include/qt6/QtNetwork -isystem /usr/include/qt6/QtUiTools -isystem /usr/include/qt6/QtOpenGLWidgets -isystem /usr/include/qt6/QtOpenGL -m64 -Wall -Wextra -Wfloat-conversion -Wsign-conversion -Wshadow -Wduplicated-cond -Wduplicated-branches -Wlogical-op -Wnull-dereference -Wuseless-cast -Wformat=2 -g -std=c++20  -o CMakeFiles/mucpp.dir/src/main_window.cpp.o -c /home/blackpill0w/Code/c_c++/MuCpp/src/main_window.cpp",
+  "file": "/home/blackpill0w/Code/c_c++/MuCpp/src/main_window.cpp",
+  "output": "CMakeFiles/mucpp.dir/src/main_window.cpp.o"
+},
+{
+  "directory": "/home/blackpill0w/Code/c_c++/MuCpp/build_debug",
+  "command": "/usr/bin/c++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_MULTIMEDIA_LIB -DQT_NETWORK_LIB -DQT_OPENGLWIDGETS_LIB -DQT_OPENGL_LIB -DQT_UITOOLS_LIB -DQT_WIDGETS_LIB -I/home/blackpill0w/Code/c_c++/MuCpp/build_debug/mucpp_autogen/include -isystem /home/blackpill0w/.conan2/p/b/sqlitbdadc39945860/p/include -isystem /usr/include/qt6/QtWidgets -isystem /usr/include/qt6 -isystem /usr/include/qt6/QtCore -isystem /usr/lib/qt6/mkspecs/linux-g++ -isystem /usr/include/qt6/QtGui -isystem /usr/include/qt6/QtMultimedia -isystem /usr/include/qt6/QtNetwork -isystem /usr/include/qt6/QtUiTools -isystem /usr/include/qt6/QtOpenGLWidgets -isystem /usr/include/qt6/QtOpenGL -m64 -Wall -Wextra -Wfloat-conversion -Wsign-conversion -Wshadow -Wduplicated-cond -Wduplicated-branches -Wlogical-op -Wnull-dereference -Wuseless-cast -Wformat=2 -g -std=c++20  -o CMakeFiles/mucpp.dir/src/main.cpp.o -c /home/blackpill0w/Code/c_c++/MuCpp/src/main.cpp",
+  "file": "/home/blackpill0w/Code/c_c++/MuCpp/src/main.cpp",
+  "output": "CMakeFiles/mucpp.dir/src/main.cpp.o"
+},
+{
+  "directory": "/home/blackpill0w/Code/c_c++/MuCpp/build_debug",
+  "command": "/usr/bin/c++ -I/home/blackpill0w/Code/c_c++/MuCpp/build_debug/deps/Music-Indexer/MusicIndexer_autogen/include -I/home/blackpill0w/Code/c_c++/MuCpp/deps/Music-Indexer/include -isystem /home/blackpill0w/.conan2/p/b/sqlitbdadc39945860/p/include -m64 -Wall -Wextra -Wfloat-conversion -Wsign-conversion -Wshadow -Wduplicated-cond -Wduplicated-branches -Wlogical-op -Wnull-dereference -Wuseless-cast -Wformat=2 -Wall -Wextra -Wfloat-conversion -Wsign-conversion -Wshadow -Wduplicated-cond -Wduplicated-branches -Wlogical-op -Wnull-dereference -Wuseless-cast -Wformat=2 -g -std=c++20 -o deps/Music-Indexer/CMakeFiles/MusicIndexer.dir/MusicIndexer_autogen/mocs_compilation.cpp.o -c /home/blackpill0w/Code/c_c++/MuCpp/build_debug/deps/Music-Indexer/MusicIndexer_autogen/mocs_compilation.cpp",
+  "file": "/home/blackpill0w/Code/c_c++/MuCpp/build_debug/deps/Music-Indexer/MusicIndexer_autogen/mocs_compilation.cpp",
+  "output": "deps/Music-Indexer/CMakeFiles/MusicIndexer.dir/MusicIndexer_autogen/mocs_compilation.cpp.o"
+},
+{
+  "directory": "/home/blackpill0w/Code/c_c++/MuCpp/build_debug",
+  "command": "/usr/bin/c++ -I/home/blackpill0w/Code/c_c++/MuCpp/build_debug/deps/Music-Indexer/MusicIndexer_autogen/include -I/home/blackpill0w/Code/c_c++/MuCpp/deps/Music-Indexer/include -isystem /home/blackpill0w/.conan2/p/b/sqlitbdadc39945860/p/include -m64 -Wall -Wextra -Wfloat-conversion -Wsign-conversion -Wshadow -Wduplicated-cond -Wduplicated-branches -Wlogical-op -Wnull-dereference -Wuseless-cast -Wformat=2 -Wall -Wextra -Wfloat-conversion -Wsign-conversion -Wshadow -Wduplicated-cond -Wduplicated-branches -Wlogical-op -Wnull-dereference -Wuseless-cast -Wformat=2 -g -std=c++20 -o deps/Music-Indexer/CMakeFiles/MusicIndexer.dir/src/music_indexer.cpp.o -c /home/blackpill0w/Code/c_c++/MuCpp/deps/Music-Indexer/src/music_indexer.cpp",
+  "file": "/home/blackpill0w/Code/c_c++/MuCpp/deps/Music-Indexer/src/music_indexer.cpp",
+  "output": "deps/Music-Indexer/CMakeFiles/MusicIndexer.dir/src/music_indexer.cpp.o"
+}
+]
