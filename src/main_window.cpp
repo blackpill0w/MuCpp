@@ -72,8 +72,10 @@ MainWindow::MainWindow() {
 void MainWindow::run() {
   if (m_main_win != nullptr)
     m_main_win->show();
-  else
+  else {
+    qFatal() << "ERROR: couldn't create the window.";
     exit(1);
+  }
 }
 
 void MainWindow::show_frame(QFrame *f) {
