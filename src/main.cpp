@@ -1,12 +1,12 @@
 #include <QApplication>
 
-#include "./main_window.hpp"
+#include "./mucpp.hpp"
 
 int main(int argc, char **argv) {
   QApplication app{argc, argv};
 
-  mucpp::MainWindow win{};
-  win.run();
+  mucpp::MuCpp m{};
+  m.run();
 
   app.exec();
 }

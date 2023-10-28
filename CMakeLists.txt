@@ -19,8 +19,9 @@ add_subdirectory("deps/Music-Indexer")
 
 add_executable(mucpp
   src/clickable_label.cpp
+  src/album_widget.cpp
   src/flow_layout.cpp
-  src/main_window.cpp
+  src/mucpp.cpp
   src/main.cpp)
 
 target_link_libraries(mucpp

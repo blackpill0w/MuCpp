@@ -1,4 +1,4 @@
-#include "./main_window.hpp"
+#include "./mucpp.hpp"
 
 #include <filesystem>
 #include <format>
@@ -17,27 +17,30 @@
 namespace fs = std::filesystem;
 
 namespace mucpp {
-MainWindow::MainWindow() {
-  QString config_dir{QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation)};
-  std::string db_file{std::format("{}/music_library.sqlite", config_dir.toStdString())};
-  MusicIndexer::data_dir = std::format("{}/album_art", config_dir.toStdString());
+MuCpp::MuCpp() {
+  init_database();
+  update_music_data();
+  init_gui_ptrs();
+  update_albums();
+}
 
-  fs::create_directory(config_dir.toStdString());
-
-  m_db = std::make_unique<SQLite::Database>(db_file,
-                                            SQLite::OPEN_CREATE | SQLite::OPEN_READWRITE);
-  MusicIndexer::init_database(*m_db);
-
+void MuCpp::init_gui_ptrs() {
   QFile f{"../ui/main_win.ui"};
   f.open(QIODevice::ReadOnly);
 
   QUiLoader loader;
 
   m_main_win = static_cast<QMainWindow *>(loader.load(&f));
-  assert((m_main_win != nullptr) && "1");
+  if (m_main_win == nullptr) {
+    qFatal() << "ERROR: couldn't initialise the window.";
+    exit(1);
+  }
 
   m_content_sa = m_main_win->findChild<QScrollArea *>("contentSA");
-  assert((m_content_sa != nullptr) && "2");
+  if (m_content_sa == nullptr) {
+    qFatal() << "ERROR: couldn't initialise the `m_content_sa`.";
+    exit(1);
+  }
   m_content_sa->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
   m_content_sa->setWidgetResizable(true);
 
@@ -47,7 +50,6 @@ MainWindow::MainWindow() {
                    &QPushButton::pressed, [&] { this->show_frame(m_albums_frame); });
 
   m_content_sa->setWidget(m_albums_frame);
-  update_albums();
 
   f.close();
   f.setFileName("../ui/settings_frame.ui");
@@ -69,7 +71,19 @@ MainWindow::MainWindow() {
   });
 }
 
-void MainWindow::run() {
+void MuCpp::init_database() {
+  QString config_dir{QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation)};
+  std::string db_file{std::format("{}/music_library.sqlite", config_dir.toStdString())};
+  MusicIndexer::data_dir = std::format("{}/album_art", config_dir.toStdString());
+
+  fs::create_directory(config_dir.toStdString());
+
+  m_db = std::make_unique<SQLite::Database>(db_file,
+                                            SQLite::OPEN_CREATE | SQLite::OPEN_READWRITE);
+  MusicIndexer::init_database(*m_db);
+}
+
+void MuCpp::run() {
   if (m_main_win != nullptr)
     m_main_win->show();
   else {
@@ -78,7 +92,7 @@ void MainWindow::run() {
   }
 }
 
-void MainWindow::show_frame(QFrame *f) {
+void MuCpp::show_frame(QFrame *f) {
   // We need to take ownership of the current widget otherwise m_content_sa deletes it.
   // We already have the pointer's value so the return value is discarded.
   // You have no idea how much debugging I did to find this bug.
@@ -86,14 +100,21 @@ void MainWindow::show_frame(QFrame *f) {
   m_content_sa->setWidget(f);
 }
 
-void MainWindow::update_albums() {
+void MuCpp::update_music_data() {
+  m_artists =
+      std::make_unique<ArtistList>(MusicIndexer::get_all<MusicIndexer::Artist>(*m_db));
+  m_albums =
+      std::make_unique<AlbumList>(MusicIndexer::get_all<MusicIndexer::Album>(*m_db));
+  m_tracks =
+      std::make_unique<TrackList>(MusicIndexer::get_all<MusicIndexer::Track>(*m_db));
+}
+
+void MuCpp::update_albums() {
   auto *layout = m_albums_frame->layout();
   while (!m_albums_frame->layout()->isEmpty()) {
     layout->removeItem(layout->itemAt(0));
   }
-  const auto albums{MusicIndexer::get_all<MusicIndexer::Album>(*m_db)};
-
-  for (const auto &a : albums) {
+  for (const auto &a : *m_albums) {
     std::string album_art{std::format("{}/{}", MusicIndexer::data_dir, a.id)};
     if (!fs::exists(album_art)) {
       // TODO: Change this bug bunny picture as a default album art
