@@ -76,6 +76,8 @@ class MuCpp {
   void map_tracks_to_artists_and_albums();
 
  protected:
+  QMediaPlayer *m_player = nullptr;
+
   std::unique_ptr<SQLite::Database> m_db = nullptr;
   ArtistList m_artists;
   AlbumList m_albums;

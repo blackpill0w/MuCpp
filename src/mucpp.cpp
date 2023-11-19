@@ -10,6 +10,8 @@
 #include <QFileDialog>
 #include <QFrame>
 #include <QLayout>
+#include <QAudioOutput>
+#include <QShortcut>
 
 #include "./album_widget.hpp"
 #include "./flow_layout.hpp"
@@ -18,7 +20,20 @@ namespace fs = std::filesystem;
 
 namespace mucpp {
 
+namespace Utils {  // Helper functions
+
+/**
+   Removes all items from a layout (and frees the memory)
+*/
+static void clear_layout(QLayout *layout);
+
+static void toggle_mediaplayer(QMediaPlayer *player);
+
+}  // namespace Utils
+
 MuCpp::MuCpp() {
+  this->m_player = new QMediaPlayer();
+  m_player->setAudioOutput(new QAudioOutput());
   init_database();
   init_gui_ptrs();
   m_album_frame = new QFrame();
@@ -114,30 +129,42 @@ void MuCpp::update_music_data() {
 
 void MuCpp::update_albums() {
   auto *layout = m_all_albums_frame->layout();
-  while (!m_all_albums_frame->layout()->isEmpty()) {
-    layout->removeItem(layout->itemAt(0));
-  }
-  for (auto &a : m_albums) {
+  Utils::clear_layout(layout);
+  for (auto& a : m_albums) {
     std::string album_art{std::format("{}/{}", Midx::data_dir, a.id)};
     if (!fs::exists(album_art)) {
       // TODO: Change this bugs bunny picture as a default album art
       // (or maybe keep it)
       album_art = "../ui/bugs_bunny.jpg";
     }
-    auto *w     = new AlbumWidget(album_art.c_str(), a.name.c_str(), m_all_albums_frame);
-    auto *a_ptr = &a;  // To avoid copying
+    auto *w = new AlbumWidget(album_art.c_str(), a.name.c_str(), m_all_albums_frame);
+    // We can't pass a function's local variable by reference
+    // to a lambda that outlives the function,
+    // so we'll pass a pointer to the referenced object by value
+    auto *a_ptr = &a;
     QObject::connect(w->get_img_label(), &ClickableLabel::clicked,
-                     [this, a_ptr] { this->display_album(*a_ptr); });
+                     [this, a_ptr]() { this->display_album(*a_ptr); });
     layout->addWidget(w);
   }
 }
 
-void MuCpp::display_album(Midx::Album &a) {
+void MuCpp::display_album(Midx::Album& a) {
   this->show_frame(m_album_frame);
+  auto *layout = m_album_frame->layout();
+  Utils::clear_layout(layout);
   for (const Midx::Track *track : m_tracks_album.at(&a)) {
     auto *w = new ClickableLabel();
     w->setText(track->file_path.c_str());
-    m_album_frame->layout()->addWidget(w);
+    layout->addWidget(w);
+    QObject::connect(w, &ClickableLabel::clicked, [this, track] {
+      if (m_player->source() != QUrl::fromLocalFile(track->file_path.c_str())) {
+        m_player->setSource(QUrl::fromLocalFile(track->file_path.c_str()));
+        m_player->play();
+      }
+      else {
+        Utils::toggle_mediaplayer(this->m_player);
+      }
+    });
   }
 }
 
@@ -145,9 +172,9 @@ void MuCpp::map_tracks_to_artists_and_albums() {
   m_tracks_artist.clear();
   m_tracks_album.clear();
   // TODO: Improve this O(n*m) disaster.
-  for (auto &artist : m_artists) {
+  for (auto& artist : m_artists) {
     m_tracks_artist[&artist] = {};
-    for (auto &track : m_tracks) {
+    for (auto& track : m_tracks) {
       if (track.get_metadata().has_value() &&
           track.get_metadata()->artist_id == artist.id) {
         m_tracks_artist[&artist].push_back(&track);
@@ -155,15 +182,34 @@ void MuCpp::map_tracks_to_artists_and_albums() {
     }
   }
 
-  for (auto &album : m_albums) {
+  for (auto& album : m_albums) {
     m_tracks_album[&album] = {};
-    for (auto &track : m_tracks) {
+    for (auto& track : m_tracks) {
       if (track.get_metadata().has_value() &&
           track.get_metadata()->album_id == album.id) {
         m_tracks_album[&album].push_back(&track);
       }
     }
   }
+}
+
+/******************************************************************************/
+/************************** --| Static functions |-- **************************/
+/******************************************************************************/
+
+void Utils::clear_layout(QLayout *layout) {
+  while (!layout->isEmpty()) {
+    QLayoutItem *i = layout->takeAt(0);
+    delete i->widget();
+    delete i;
+  }
+}
+
+void Utils::toggle_mediaplayer(QMediaPlayer *player) {
+  if (player->playbackState() == QMediaPlayer::PlaybackState::PausedState)
+    player->play();
+  else
+    player->pause();
 }
 
 }  // namespace mucpp
