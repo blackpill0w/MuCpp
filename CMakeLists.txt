@@ -15,7 +15,10 @@ string(CONCAT CMAKE_CXX_FLAGS
 find_package(Qt6 REQUIRED COMPONENTS Widgets UiTools Multimedia)
 qt_standard_project_setup()
 
-add_subdirectory("deps/Music-Indexer")
+set(MIDX_BUILD_TEST OFF)
+set(MIDX_PYTHON_BINDINGS OFF)
+add_subdirectory("deps/Midx")
+include_directories("deps/Midx/src" "deps/Midx/deps/SQLiteCpp/include")
 
 add_executable(mucpp
   src/clickable_label.cpp
@@ -25,7 +28,7 @@ add_executable(mucpp
   src/main.cpp)
 
 target_link_libraries(mucpp
-  MusicIndexer
+  Midx
   Qt6::Widgets
   Qt6::Multimedia
   Qt6::UiTools

@@ -17,11 +17,13 @@
 namespace fs = std::filesystem;
 
 namespace mucpp {
+
 MuCpp::MuCpp() {
   init_database();
-  update_music_data();
   init_gui_ptrs();
-  update_albums();
+  m_album_frame = new QFrame();
+  new FlowLayout(m_album_frame);
+  update_music_data();
 }
 
 void MuCpp::init_gui_ptrs() {
@@ -44,12 +46,12 @@ void MuCpp::init_gui_ptrs() {
   m_content_sa->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
   m_content_sa->setWidgetResizable(true);
 
-  m_albums_frame = new QFrame();
-  new FlowLayout(m_albums_frame);
+  m_all_albums_frame = new QFrame();
+  new FlowLayout(m_all_albums_frame);
   QWidget::connect(m_main_win->findChild<QPushButton *>("albumsPB"),
-                   &QPushButton::pressed, [&] { this->show_frame(m_albums_frame); });
+                   &QPushButton::pressed, [&] { this->show_frame(m_all_albums_frame); });
 
-  m_content_sa->setWidget(m_albums_frame);
+  m_content_sa->setWidget(m_all_albums_frame);
 
   f.close();
   f.setFileName("../ui/settings_frame.ui");
@@ -64,23 +66,24 @@ void MuCpp::init_gui_ptrs() {
   QWidget::connect(add_mdir_pb, &QPushButton::pressed, [&] {
     QString dir = QFileDialog::getExistingDirectory(m_settings_frame, "Add a directory",
                                                     "", QFileDialog::ShowDirsOnly);
-    MusicIndexer::insert<MusicIndexer::MusicDir>(*m_db, dir.toStdString());
-    MusicIndexer::build_music_library(*m_db);
-    update_albums();
-    show_frame(m_albums_frame);
+    Midx::insert_music_dir(*m_db, dir.toStdString());
+    Midx::build_music_library(*m_db);
+    update_music_data();
+    show_frame(m_all_albums_frame);
   });
 }
 
 void MuCpp::init_database() {
   QString config_dir{QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation)};
   std::string db_file{std::format("{}/music_library.sqlite", config_dir.toStdString())};
-  MusicIndexer::data_dir = std::format("{}/album_art", config_dir.toStdString());
+  Midx::data_dir = std::format("{}/album_art", config_dir.toStdString());
 
   fs::create_directory(config_dir.toStdString());
+  fs::create_directory(Midx::data_dir);
 
   m_db = std::make_unique<SQLite::Database>(db_file,
                                             SQLite::OPEN_CREATE | SQLite::OPEN_READWRITE);
-  MusicIndexer::init_database(*m_db);
+  Midx::init_database(*m_db);
 }
 
 void MuCpp::run() {
@@ -101,28 +104,66 @@ void MuCpp::show_frame(QFrame *f) {
 }
 
 void MuCpp::update_music_data() {
-  m_artists =
-      std::make_unique<ArtistList>(MusicIndexer::get_all<MusicIndexer::Artist>(*m_db));
-  m_albums =
-      std::make_unique<AlbumList>(MusicIndexer::get_all<MusicIndexer::Album>(*m_db));
-  m_tracks =
-      std::make_unique<TrackList>(MusicIndexer::get_all<MusicIndexer::Track>(*m_db));
+  m_artists = Midx::get_all_artists(*m_db);
+  m_albums  = Midx::get_all_albums(*m_db);
+  m_tracks  = Midx::get_all_tracks(*m_db);
+
+  this->map_tracks_to_artists_and_albums();
+  this->update_albums();
 }
 
 void MuCpp::update_albums() {
-  auto *layout = m_albums_frame->layout();
-  while (!m_albums_frame->layout()->isEmpty()) {
+  auto *layout = m_all_albums_frame->layout();
+  while (!m_all_albums_frame->layout()->isEmpty()) {
     layout->removeItem(layout->itemAt(0));
   }
-  for (const auto &a : *m_albums) {
-    std::string album_art{std::format("{}/{}", MusicIndexer::data_dir, a.id)};
+  for (auto &a : m_albums) {
+    std::string album_art{std::format("{}/{}", Midx::data_dir, a.id)};
     if (!fs::exists(album_art)) {
-      // TODO: Change this bug bunny picture as a default album art
+      // TODO: Change this bugs bunny picture as a default album art
       // (or maybe keep it)
       album_art = "../ui/bugs_bunny.jpg";
     }
-    auto *w = new AlbumWidget(album_art.c_str(), a.name.c_str(), m_albums_frame);
+    auto *w     = new AlbumWidget(album_art.c_str(), a.name.c_str(), m_all_albums_frame);
+    auto *a_ptr = &a;  // To avoid copying
+    QObject::connect(w->get_img_label(), &ClickableLabel::clicked,
+                     [this, a_ptr] { this->display_album(*a_ptr); });
     layout->addWidget(w);
   }
 }
+
+void MuCpp::display_album(Midx::Album &a) {
+  this->show_frame(m_album_frame);
+  for (const Midx::Track *track : m_tracks_album.at(&a)) {
+    auto *w = new ClickableLabel();
+    w->setText(track->file_path.c_str());
+    m_album_frame->layout()->addWidget(w);
+  }
+}
+
+void MuCpp::map_tracks_to_artists_and_albums() {
+  m_tracks_artist.clear();
+  m_tracks_album.clear();
+  // TODO: Improve this O(n*m) disaster.
+  for (auto &artist : m_artists) {
+    m_tracks_artist[&artist] = {};
+    for (auto &track : m_tracks) {
+      if (track.get_metadata().has_value() &&
+          track.get_metadata()->artist_id == artist.id) {
+        m_tracks_artist[&artist].push_back(&track);
+      }
+    }
+  }
+
+  for (auto &album : m_albums) {
+    m_tracks_album[&album] = {};
+    for (auto &track : m_tracks) {
+      if (track.get_metadata().has_value() &&
+          track.get_metadata()->album_id == album.id) {
+        m_tracks_album[&album].push_back(&track);
+      }
+    }
+  }
+}
+
 }  // namespace mucpp
