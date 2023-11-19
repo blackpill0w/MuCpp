@@ -22,12 +22,12 @@ class FlowLayout : public QLayout {
   int count() const override;
   QLayoutItem *itemAt(int index) const override;
   QSize minimumSize() const override;
-  void setGeometry(const QRect &rect) override;
+  void setGeometry(const QRect& rect) override;
   QSize sizeHint() const override;
   QLayoutItem *takeAt(int index) override;
 
  private:
-  int doLayout(const QRect &rect, bool testOnly) const;
+  int doLayout(const QRect& rect, bool testOnly) const;
   int smartSpacing(QStyle::PixelMetric pm) const;
 
   QList<QLayoutItem *> itemList;

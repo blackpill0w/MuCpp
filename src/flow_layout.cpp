@@ -55,7 +55,7 @@ int FlowLayout::heightForWidth(int width) const {
   return height;
 }
 
-void FlowLayout::setGeometry(const QRect &rect) {
+void FlowLayout::setGeometry(const QRect& rect) {
   QLayout::setGeometry(rect);
   doLayout(rect, false);
 }
@@ -72,7 +72,7 @@ QSize FlowLayout::minimumSize() const {
   return size;
 }
 
-int FlowLayout::doLayout(const QRect &rect, bool testOnly) const {
+int FlowLayout::doLayout(const QRect& rect, bool testOnly) const {
   int left, top, right, bottom;
   getContentsMargins(&left, &top, &right, &bottom);
   QRect effectiveRect = rect.adjusted(+left, +top, -right, -bottom);

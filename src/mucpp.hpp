@@ -21,13 +21,11 @@ using TrackList  = std::vector<Midx::Track>;
 /**
    An `unordered_map` that maps tracks to artists.
 */
-using ArtistToTrackMap =
-    std::unordered_map<Midx::Artist *, std::vector<Midx::Track *>>;
+using ArtistToTrackMap = std::unordered_map<Midx::Artist *, std::vector<Midx::Track *>>;
 /**
    An `unordered_map` that maps tracks to albums.
 */
-using AlbumToTrackMap =
-    std::unordered_map<Midx::Album *, std::vector<Midx::Track *>>;
+using AlbumToTrackMap = std::unordered_map<Midx::Album *, std::vector<Midx::Track *>>;
 
 class MuCpp {
  public:
@@ -68,7 +66,7 @@ class MuCpp {
   /**
      Display album and its tracks.
   */
-  void display_album(Midx::Album &a);
+  void display_album(Midx::Album& a);
 
   /**
      Updates the `m_tracks_artists` and `m_tracks_albums`.

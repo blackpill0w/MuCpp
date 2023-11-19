@@ -21,7 +21,7 @@ class MusicPlayer {
   MusicPlayer() : player{new QMediaPlayer()}, audio_output{new QAudioOutput()} {
     audio_output->setVolume(50);
   };
-  void set_track(const std::string &file_path) {
+  void set_track(const std::string& file_path) {
     player->setSource(QUrl::fromLocalFile(file_path.c_str()));
     state = State::Stopped;
   }

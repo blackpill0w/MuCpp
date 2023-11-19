@@ -11,8 +11,6 @@ AlbumWidget::AlbumWidget(const char *img_path, const char *title, QWidget *paren
 
 QLabel *AlbumWidget::get_title_label() { return m_aw->titleL; }
 
-ClickableLabel *AlbumWidget::get_img_label() {
-  return m_aw->imgL;
-}
+ClickableLabel *AlbumWidget::get_img_label() { return m_aw->imgL; }
 
 }  // namespace mucpp
